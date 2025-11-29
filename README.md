@@ -112,20 +112,44 @@ python manage.py runserver
 
 ## 배포
 
-### GitHub Actions를 통한 배포
+### GitHub Pages 배포 (정적 사이트)
 
-1. `.github/workflows/deploy.yml` 파일 생성 (예정)
-2. GitHub Secrets에 필요한 환경 변수 설정
-3. push 시 자동 배포
+이 프로젝트는 GitHub Actions를 통해 정적 사이트로 빌드되어 GitHub Pages에 자동 배포됩니다.
 
-### 프로덕션 설정
+**배포 활성화 방법:**
+1. GitHub 저장소의 **Settings** → **Pages**로 이동
+2. **Source**에서 **"GitHub Actions"** 선택
+3. 저장
+
+**배포 프로세스:**
+- `main` 브랜치에 push하면 자동으로 빌드 및 배포됩니다
+- `build_static.py` 스크립트가 Django 템플릿을 정적 HTML로 변환합니다
+- 정적 파일(CSS, JS, 이미지)이 함께 배포됩니다
+- 배포된 사이트: https://kiminsun.github.io/innok_django
+
+**주의사항:**
+- GitHub Pages는 정적 사이트만 호스팅 가능합니다
+- 동적 기능(공지사항, 견적문의 등)은 Django 서버가 필요합니다
+- 현재는 정적 페이지(메인, 사업소개, 회사소개, 고객센터)만 배포됩니다
+
+### Django 서버 배포 (전체 기능)
+
+전체 Django 기능을 사용하려면 별도의 서버가 필요합니다:
+
+**추천 플랫폼:**
+- **Railway** (https://railway.app) - 무료 티어 제공
+- **Render** (https://render.com) - 무료 티어 제공
+- **Heroku** (유료)
+- **AWS/Azure/GCP** (프로덕션용)
+
+**프로덕션 설정:**
 
 프로덕션 환경에서는 다음 설정을 변경해야 합니다:
 
 - `DEBUG = False`
 - `ALLOWED_HOSTS` 설정
 - `SECRET_KEY` 환경 변수로 관리
-- 데이터베이스 설정 (MySQL)
+- 데이터베이스 설정 (MySQL 또는 PostgreSQL)
 
 ## 개발 가이드
 
