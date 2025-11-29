@@ -148,4 +148,3 @@ python manage.py runserver
 
 - 이메일: innogi2020@innok.kr
 - 전화: 02-756-7094
-
