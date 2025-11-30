@@ -16,9 +16,24 @@
         <!-- 동영상 섹션 -->
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="mb-4">관련 동영상</h2>
-                <div class="row g-4" id="videoGallery">
-                    <!-- 동영상이 여기에 표시됩니다 -->
+                <h2 class="mb-4 text-center">관련 동영상</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-xl-8">
+                        <div class="youtube-video-wrapper">
+                            <div class="ratio ratio-16x9">
+                                <iframe 
+                                    width="560" 
+                                    height="315" 
+                                    src="https://www.youtube.com/embed/MqhxWQGmwm8?si=MWtPK3jqfvWb5doZ" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,52 +53,33 @@
 
 {% block extra_js %}
 <script>
-    // PR 데이터 로드 (예시 - 실제로는 JSON 파일이나 데이터베이스에서 로드)
+    // 사진 갤러리 표시
     const prData = {
-        videos: [
-            { id: 1, title: "INNOK 소개 동영상", url: "https://www.youtube.com/embed/VIDEO_ID_1" },
-            { id: 2, title: "GMP 교육 프로그램", url: "https://www.youtube.com/embed/VIDEO_ID_2" }
-        ],
         photos: [
-            { id: 1, title: "사진 1", url: "/static/images/photo1.jpg" },
-            { id: 2, title: "사진 2", url: "/static/images/photo2.jpg" },
-            { id: 3, title: "사진 3", url: "/static/images/photo3.jpg" }
+            { id: 1, title: "식약청 재직시절 약무감시에 대한 공로 표창장", url: "{% static 'img/4.jpg' %}" },
+            { id: 2, title: "식약청 20년 재직기념패", url: "{% static 'img/5.jpg' %}" },
+            { id: 3, title: "Korea Food & Drug administration CERTIFICATE", url: "{% static 'img/6.jpg' %}" }
         ]
     };
     
-    // 동영상 표시
-    const videoGallery = document.getElementById('videoGallery');
-    prData.videos.forEach(video => {
-        const col = document.createElement('div');
-        col.className = 'col-md-6';
-        col.innerHTML = `
-            <div class="card shadow-sm">
-                <div class="ratio ratio-16x9">
-                    <iframe src="${video.url}" allowfullscreen></iframe>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">${video.title}</h5>
-                </div>
-            </div>
-        `;
-        videoGallery.appendChild(col);
-    });
-    
     // 사진 갤러리 표시
     const photoGallery = document.getElementById('photoGallery');
-    prData.photos.forEach(photo => {
-        const col = document.createElement('div');
-        col.className = 'col-md-4';
-        col.innerHTML = `
-            <div class="card shadow-sm">
-                <img src="${photo.url}" class="card-img-top" alt="${photo.title}" style="height: 250px; object-fit: cover; cursor: pointer;" onclick="openLightbox('${photo.url}')">
-                <div class="card-body">
-                    <h5 class="card-title">${photo.title}</h5>
+    if (photoGallery) {
+        prData.photos.forEach((photo, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-md-4';
+            const imageUrl = photo.url;
+            col.innerHTML = `
+                <div class="card shadow-sm">
+                    <img src="${imageUrl}" class="card-img-top" alt="${photo.title}" style="height: 250px; object-fit: cover; cursor: pointer;" onclick="openLightbox('${imageUrl}')">
+                    <div class="card-body">
+                        <h5 class="card-title">${photo.title}</h5>
+                    </div>
                 </div>
-            </div>
-        `;
-        photoGallery.appendChild(col);
-    });
+            `;
+            photoGallery.appendChild(col);
+        });
+    }
     
     // 라이트박스 기능
     function openLightbox(imageUrl) {

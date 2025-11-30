@@ -17,6 +17,28 @@ def index(request):
 
 def business(request):
     """사업소개 페이지"""
+    # JSON 형식 요청 처리
+    if request.GET.get('format') == 'json':
+        from django.http import JsonResponse
+        json_path = settings.JSON_DATA_DIR / 'projects.json'
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # 특정 프로젝트 상세 정보 요청
+            project_id = request.GET.get('id')
+            project_type = request.GET.get('type')
+            if project_id and project_type:
+                projects = data.get(project_type, [])
+                project = next((p for p in projects if p.get('id') == int(project_id)), None)
+                if project:
+                    return JsonResponse(project)
+                return JsonResponse({'error': 'Project not found'}, status=404)
+            
+            return JsonResponse(data)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
     return render(request, 'main/business.html')
 
 

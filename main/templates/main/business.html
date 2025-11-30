@@ -13,17 +13,42 @@
             </div>
         </div>
         
-        <!-- 필터 버튼 -->
+        <!-- 필터 드롭다운 -->
         <div class="row mb-4">
-            <div class="col-12 text-center">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-primary active" data-type="all">전체</button>
-                    <button type="button" class="btn btn-outline-primary" data-type="specialized">특화사업</button>
-                    <button type="button" class="btn btn-outline-primary" data-type="general">일반사업</button>
-                    <button type="button" class="btn btn-outline-primary" data-type="education">교육사업</button>
-                    <button type="button" class="btn btn-outline-primary" data-type="regulatory">규제전문 에이전시</button>
-                    <button type="button" class="btn btn-outline-primary" data-type="m&a">브랜딩 지원 사업(M&A)</button>
+            <div class="col-12">
+                <div class="business-filter-wrapper">
+                    <!-- 데스크톱: 탭 버튼 -->
+                    <div class="business-filter-buttons d-none d-md-flex">
+                        <button type="button" class="btn btn-outline-primary active" data-type="all">전체</button>
+                        <button type="button" class="btn btn-outline-primary" data-type="specialized">특화사업</button>
+                        <button type="button" class="btn btn-outline-primary" data-type="general">일반사업</button>
+                        <button type="button" class="btn btn-outline-primary" data-type="education">교육사업</button>
+                        <button type="button" class="btn btn-outline-primary" data-type="regulatory">규제전문 에이전시</button>
+                        <button type="button" class="btn btn-outline-primary" data-type="m&a">브랜딩 지원 사업(M&A)</button>
+                    </div>
+                    
+                    <!-- 모바일: 드롭다운 -->
+                    <div class="dropdown d-md-none">
+                        <button class="btn btn-primary dropdown-toggle w-100" type="button" id="businessFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="selectedFilter">전체</span>
+                        </button>
+                        <ul class="dropdown-menu w-100" aria-labelledby="businessFilterDropdown">
+                            <li><a class="dropdown-item active" href="#" data-type="all">전체</a></li>
+                            <li><a class="dropdown-item" href="#" data-type="specialized">특화사업</a></li>
+                            <li><a class="dropdown-item" href="#" data-type="general">일반사업</a></li>
+                            <li><a class="dropdown-item" href="#" data-type="education">교육사업</a></li>
+                            <li><a class="dropdown-item" href="#" data-type="regulatory">규제전문 에이전시</a></li>
+                            <li><a class="dropdown-item" href="#" data-type="m&a">브랜딩 지원 사업(M&A)</a></li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- 사업 설명 섹션 (특화사업 등) -->
+        <div class="row mb-4" id="businessDescription" style="display: none;">
+            <div class="col-12">
+                <div id="businessDescriptionContent"></div>
             </div>
         </div>
         
@@ -67,9 +92,56 @@
             });
     }
     
+    // 사업별 설명 텍스트 (이미지 스타일 레이아웃)
+    const businessDescriptions = {
+        'specialized': `
+            <div class="business-description-section mb-4">
+                <div class="business-section-header">
+                    <h3 class="mb-0">의료제품(의약품, 의료기기, 바이오, 의약외품, 융복합제품, 화장품) GMP 인증의 큰 그림을 그려드립니다.</h3>
+                </div>
+                <div class="business-section-content">
+                    <div class="business-section-image">
+                        <img src="{% static 'img/3.JPG' %}" alt="GMP 인증 컨설팅" class="img-fluid">
+                    </div>
+                    <div class="business-section-text">
+                        <p>GMP 인증은 단계별로 고려할 사항과 문제 해결 및 대응능력이 필요합니다. GMP 운영 중 식약처 현장 감시에 경험적 요소가 풍부하며 합리적인 대응 시뮬레이션 능력을 겸비하고 있어 사전, 사후 원스톱 해결이 가능합니다. 고객의 상황에 맞는 성공적인 대응과 인증 및 유지의 성공률을 자랑하다보니 한번 인연을 맺은 의뢰인께서 trouble-shooting 또는 직원 역량 향상 교육을 위한 정기적인 고문 계약을 해주기도 합니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="business-description-section mb-4">
+                <div class="business-section-header">
+                    <h3 class="mb-0">종합적인 사고와 광범위한 인맥 그리고 무엇보다 강력한 추진력</h3>
+                </div>
+                <div class="business-section-content">
+                    <div class="business-section-image">
+                        <img src="{% static 'img/2.JPG' %}" alt="컨설팅 네트워크" class="img-fluid">
+                    </div>
+                    <div class="business-section-text">
+                        <p>식약처와 보건복지분야 출신 공무원 출신 컨설턴트로 관련 행정부서와 라포 형성과 뛰어난 업무능력을 바탕으로 1%의 가능성만으로도 포기하지 않고 전방위로 문제해결을 위해 인맥을 동원하고 규제분석을 통해 포기하지 않고 끝까지 의뢰인의 입장에서 강력한 추진력으로 처리하기 때문에 높은 성공률을 자랑합니다.</p>
+                    </div>
+                </div>
+            </div>
+        `,
+        'general': '',
+        'education': '',
+        'regulatory': '',
+        'm&a': ''
+    };
+    
     function displayProjects(data, filterType) {
         const gallery = document.getElementById('projectGallery');
+        const descriptionSection = document.getElementById('businessDescription');
+        const descriptionContent = document.getElementById('businessDescriptionContent');
+        
         gallery.innerHTML = '';
+        
+        // 특정 사업 유형 선택 시 설명 표시
+        if (filterType !== 'all' && businessDescriptions[filterType]) {
+            descriptionSection.style.display = 'block';
+            descriptionContent.innerHTML = businessDescriptions[filterType];
+        } else {
+            descriptionSection.style.display = 'none';
+        }
         
         const types = ['specialized', 'general', 'education', 'regulatory', 'm&a'];
         types.forEach(type => {
@@ -118,12 +190,38 @@
             });
     }
     
-    // 필터 버튼 이벤트
-    document.querySelectorAll('[data-type]').forEach(btn => {
+    // 필터 버튼 이벤트 (데스크톱 탭)
+    document.querySelectorAll('.business-filter-buttons [data-type]').forEach(btn => {
         btn.addEventListener('click', function() {
-            document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.business-filter-buttons [data-type]').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             loadProjects(this.dataset.type);
+        });
+    });
+    
+    // 드롭다운 메뉴 이벤트 (모바일)
+    document.querySelectorAll('.dropdown-item[data-type]').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const type = this.dataset.type;
+            const text = this.textContent.trim();
+            
+            // 선택된 항목 표시 업데이트
+            document.getElementById('selectedFilter').textContent = text;
+            
+            // 드롭다운 메뉴에서 active 클래스 업데이트
+            document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 데스크톱 탭도 동기화
+            document.querySelectorAll('.business-filter-buttons [data-type]').forEach(b => {
+                b.classList.remove('active');
+                if (b.dataset.type === type) {
+                    b.classList.add('active');
+                }
+            });
+            
+            loadProjects(type);
         });
     });
     
