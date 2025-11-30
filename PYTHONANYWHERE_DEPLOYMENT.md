@@ -4,7 +4,7 @@
 ✅ **배포 가능합니다!**
 - PythonAnywhere는 Django를 지원합니다
 - Python 3.8, 3.9, 3.10을 지원합니다
-- 현재 프로젝트는 Python 3.8과 호환됩니다
+- 현재 프로젝트는 Python 3.9와 호환됩니다
 
 ## 배포 단계
 
@@ -30,7 +30,7 @@ cd innok_django
 ```bash
 # PythonAnywhere 콘솔에서
 cd ~/innok_django
-python3.8 -m venv venv
+python3.9 -m venv venv
 source venv/bin/activate
 pip install --user -r requirements.txt
 ```
@@ -46,7 +46,23 @@ python manage.py createsuperuser
 python manage.py collectstatic --noinput
 ```
 
-### 6. WSGI 설정
+### 6. 웹 앱 생성 (중요!)
+**Web 탭 → "Add a new web app"** 클릭
+
+1. **도메인 선택**:
+   - 무료 계정: `yourusername.pythonanywhere.com` 선택
+   - 유료 계정: 자신의 도메인 선택 가능
+
+2. **Python Web Framework 선택**:
+   - **"Manual configuration"** 선택 (Django를 직접 설정)
+   - 또는 **"Django"** 선택 후 Django 버전 선택
+
+3. **Python 버전 선택**:
+   - Python 3.9 선택 (권장) 또는 3.10 선택
+
+4. **"Next"** 클릭하여 웹 앱 생성 완료
+
+### 7. WSGI 설정
 **Web 탭 → WSGI configuration file** 클릭
 
 다음 내용으로 수정:
@@ -54,8 +70,8 @@ python manage.py collectstatic --noinput
 import os
 import sys
 
-# 프로젝트 경로 추가
-path = '/home/yourusername/innok_django'
+# 프로젝트 경로 추가 
+path = '/home/yoonseo03/innok_django'
 if path not in sys.path:
     sys.path.insert(0, path)
 
@@ -65,7 +81,7 @@ with open(activate_this) as f:
     exec(f.read(), {'__file__': activate_this})
 
 # Django 설정
-os.environ['DJANGO_SETTINGS_MODULE'] = 'innok_site.settings_production'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'innok_site.settings_pythonanywhere'
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

@@ -9,51 +9,22 @@ import os
 DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-in-production')
 
-# 허용된 호스트 설정
-ALLOWED_HOSTS = [
-    'your-domain.com',
-    'www.your-domain.com',
-    'your-eb-env.elasticbeanstalk.com',  # Elastic Beanstalk 환경
-    'your-lightsail-ip',  # Lightsail IP
-]
+# 호스트 설정
+ALLOWED_HOSTS = ['yoonseo03.pythonanywhere.com']
 
-# 데이터베이스 설정 (RDS)
+# 정적 파일
+STATIC_ROOT = '/home/yoonseo03/innok_django/staticfiles'
+MEDIA_ROOT = '/home/yoonseo03/innok_django/media'
+
+
+# 데이터베이스 (SQLite 사용)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'innok_db'),
-        'USER': os.environ.get('DB_USER', 'admin'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-# 정적 파일 설정 (S3)
-# django-storages 설치 필요: pip install django-storages boto3
-USE_S3 = os.environ.get('USE_S3', 'False') == 'True'
-
-if USE_S3:
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'ap-northeast-2')
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    
-    # 정적 파일
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-    
-    # 미디어 파일
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-else:
-    # 로컬 저장 (개발용)
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
 
 # 보안 헤더
 SECURE_SSL_REDIRECT = True

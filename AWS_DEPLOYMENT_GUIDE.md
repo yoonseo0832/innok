@@ -136,7 +136,7 @@ pip install awsebcli
 
 2. **EB 초기화**
 ```bash
-eb init -p python-3.8 innok-django
+eb init -p python-3.9 innok-django
 ```
 
 3. **환경 변수 설정**

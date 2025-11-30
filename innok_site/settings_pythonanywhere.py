@@ -10,7 +10,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-secret-key-in-production'
 
 # 허용된 호스트 설정 (PythonAnywhere 사용자명으로 변경 필요)
 ALLOWED_HOSTS = [
-    'yourusername.pythonanywhere.com',  # 실제 사용자명으로 변경하세요
+    'yoonseo03.pythonanywhere.com',  # 실제 사용자명으로 변경하세요
 ]
 
 # 정적 파일 설정
@@ -27,9 +27,9 @@ DATABASES = {
 
 # 보안 헤더 (HTTPS 사용 시)
 # PythonAnywhere 무료 계정은 HTTPS를 지원하지 않으므로 주석 처리
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # 로깅 설정
 LOGGING = {
