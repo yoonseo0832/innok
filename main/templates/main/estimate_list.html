@@ -32,34 +32,33 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>번호</th>
-                                <th>제목</th>
-                                <th>글쓴이</th>
-                                <th>답변여부</th>
-                                <th>조회</th>
-                                <th>등록일자</th>
+                                <th class="d-none d-md-table-cell">번호</th>
+                                <th class="estimate-title-col">제목</th>
+                                <th class="d-none d-md-table-cell">글쓴이</th>
+                                <th class="estimate-status-col">답변여부</th>
+                                <th class="d-none d-md-table-cell">조회</th>
+                                <th class="estimate-date-col">등록일자</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for estimate in page_obj %}
                             <tr>
-                                <td>{{ estimate.id }}</td>
-                                <td>
+                                <td class="d-none d-md-table-cell">{{ estimate.id }}</td>
+                                <td class="estimate-title-col">
                                     <a href="{% url 'main:estimate_detail' estimate.pk %}" class="text-decoration-none">
                                         {{ estimate.title }}
-                                        {% if estimate.answer %}
-                                        <span class="badge bg-success">답변완료</span>
-                                        {% else %}
-                                        <span class="badge bg-warning">답변대기</span>
-                                        {% endif %}
                                     </a>
                                 </td>
-                                <td>{{ estimate.author }}</td>
-                                <td>
-                                    {% if estimate.answer %}완료{% else %}대기{% endif %}
+                                <td class="d-none d-md-table-cell">{{ estimate.author }}</td>
+                                <td class="estimate-status-col">
+                                    {% if estimate.answer %}
+                                        <span class="badge bg-success">답변완료</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">답변대기</span>
+                                    {% endif %}
                                 </td>
-                                <td>{{ estimate.views }}</td>
-                                <td>{{ estimate.created_at|date:"Y-m-d" }}</td>
+                                <td class="d-none d-md-table-cell">{{ estimate.views }}</td>
+                                <td class="estimate-date-col">{{ estimate.created_at|date:"Y-m-d" }}</td>
                             </tr>
                             {% empty %}
                             <tr>

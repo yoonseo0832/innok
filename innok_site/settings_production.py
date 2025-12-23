@@ -10,7 +10,7 @@ DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-in-production')
 
 # 호스트 설정
-ALLOWED_HOSTS = ['yoonseo03.pythonanywhere.com']
+ALLOWED_HOSTS = ['innok.kr']
 
 # 정적 파일
 STATIC_ROOT = '/home/yoonseo03/innok_django/staticfiles'

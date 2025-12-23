@@ -14,6 +14,7 @@
                         <div class="col-lg-8 text-center text-white" data-aos="fade-up">
                             <h1 class="display-3 fw-bold mb-4">INNOK</h1>
                             <p class="lead mb-4">23년간의 약무행정실무 경력을 바탕으로<br>최고의 전문 맞춤 상담을 제공합니다</p>
+                            <a href="/estimate/create/" class="btn btn-primary btn-lg">문의하기</a>
                         </div>
                     </div>
                 </div>
@@ -44,14 +45,14 @@
             <div class="col-lg-10 col-xl-8">
                 <div class="youtube-video-wrapper">
                     <div class="ratio ratio-16x9">
-                        <iframe 
-                            width="560" 
-                            height="315" 
-                            src="https://www.youtube.com/embed/MqhxWQGmwm8?si=TUwcCs2IaGp7Rt-P" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            referrerpolicy="strict-origin-when-cross-origin" 
+                        <iframe
+                            width="560"
+                            height="315"
+                            src="https://www.youtube.com/embed/E1SC4kXt0Aw?si=TUwcCs2IaGp7Rt-P"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -70,7 +71,7 @@
                 <p class="lead">다양한 전문 영역의 컨설팅 서비스를 제공합니다</p>
             </div>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="business-card card h-100 shadow-sm" style="background-image: url('{% static 'img/3.JPG' %}');">
@@ -91,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="business-card card h-100 shadow-sm" style="background-image: url('{% static 'img/2.JPG' %}');">
                     <div class="business-card-default">
@@ -111,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                 <div class="business-card card h-100 shadow-sm" style="background-image: url('{% static 'img/edu.JPG' %}');">
                     <div class="business-card-default">
@@ -131,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            
+            <!-- 사업소개 특화/일반/교육/규제에이전시/M&A 축소 특화/일반/교육으로 변경
             <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="business-card card h-100 shadow-sm" style="background-image: url('{% static 'img/1.JPG' %}');">
                     <div class="business-card-default">
@@ -151,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                 <div class="business-card card h-100 shadow-sm" style="background-image: url('{% static 'img/ma.JPG' %}');">
                     <div class="business-card-default">
@@ -171,6 +172,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
     </div>
 </section>
@@ -247,28 +249,49 @@
     // 히어로 슬라이더
     let currentSlide = 0;
     const slides = document.querySelectorAll('.hero-slide');
-    
+
     function changeSlide(direction) {
         slides[currentSlide].classList.remove('active');
         currentSlide = (currentSlide + direction + slides.length) % slides.length;
         slides[currentSlide].classList.add('active');
     }
-    
+
     // 자동 슬라이드 (10초마다 변경)
     setInterval(() => changeSlide(1), 10000);
-    
+
     // 네이버 지도
     function initMap() {
         const mapOptions = {
-            center: new naver.maps.LatLng(37.5496, 126.9750),
+            center: new naver.maps.LatLng(37.550109, 126.982025),
             zoom: 15
         };
         const map = new naver.maps.Map('map', mapOptions);
-        
+
         const marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.5496, 126.9750),
+            position: new naver.maps.LatLng(37.550109, 126.982025),
             map: map
         });
+
+        // ---------------------------------------------
+        // ★ 추가된 부분: 마커 위 텍스트 박스 (InfoWindow)
+        // ---------------------------------------------
+        const contentString = [
+            '<div style="padding:12px; min-width:150px; text-align:center;">',
+            '   <h4 style="margin:0 0 5px 0; color:#0d6efd; font-weight:bold;">INNOK</h4>',
+            '</div>'
+        ].join('');
+
+        const infoWindow = new naver.maps.InfoWindow({
+            content: contentString,
+            borderColor: "#ccc",       // 테두리 색상
+            borderWidth: 1,            // 테두리 두께
+            anchorSize: new naver.maps.Size(10, 10), // 말풍선 꼬리 크기
+            backgroundColor: "#fff",   // 배경색
+        });
+
+        // 지도가 로드되자마자 마커 위에 창을 엽니다.
+        infoWindow.open(map, marker);
+
     }
 </script>
 <script type="text/javascript" src="https://openapi.map.naver.com/mapjs.js?ncpClientId=YOUR_CLIENT_ID"></script>

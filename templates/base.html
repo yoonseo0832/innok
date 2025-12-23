@@ -7,21 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="INNOK - 의료제품 GMP 교육 및 컨설팅 전문 기업">
     <title>{% block title %}INNOK - 의료제품 GMP 교육 및 컨설팅{% endblock %}</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     {% bootstrap_css %}
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -106,13 +106,15 @@
 
     <!-- Bootstrap 5 JS -->
     {% bootstrap_javascript %}
-    
+
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
-    
+
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u0r31itq4o&callback=initMap"></script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

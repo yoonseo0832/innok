@@ -10,6 +10,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-secret-key-in-production'
 
 # 허용된 호스트 설정 (PythonAnywhere 사용자명으로 변경 필요)
 ALLOWED_HOSTS = [
+    'innok.kr',           # 이 줄 추가!
+    'www.innok.kr',
     'yoonseo03.pythonanywhere.com',  # 실제 사용자명으로 변경하세요
 ]
 

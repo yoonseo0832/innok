@@ -26,10 +26,35 @@ class Notice(models.Model):
 
 class Estimate(models.Model):
     """견적문의 모델"""
+
+    # 사업분야 선택지 정의
+    CATEGORY_CHOICES = [
+        ('general', '일반'),
+        ('specialized', '특화'),
+        ('education', '교육'),
+    ]
+
     title = models.CharField(max_length=255, verbose_name='제목')
     author = models.CharField(max_length=100, verbose_name='글쓴이')
     password = models.CharField(max_length=255, verbose_name='비밀번호')
+    company = models.CharField(max_length=100, verbose_name='회사명', default='') # 새로 추가
+    phone = models.CharField(max_length=20, verbose_name='연락처', default='')    # 새로 추가
+    email = models.EmailField(verbose_name='이메일', default='')
+
+    # 라디오 버튼 항목 (필수)
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='general',
+        verbose_name='사업분야'
+    ) # 새로 추가
+
     content = models.TextField(verbose_name='내용')
+
+    # 선택 입력 항목
+    homepage = models.URLField(blank=True, null=True, verbose_name='홈페이지 URL') # 새로 추가
+
+    # 관리용 항목
     views = models.IntegerField(default=0, verbose_name='조회수')
     answer = models.TextField(blank=True, null=True, verbose_name='답변')
     answered_at = models.DateTimeField(blank=True, null=True, verbose_name='답변일자')

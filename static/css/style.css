@@ -108,10 +108,12 @@ body {
     background-position: center;
     opacity: 0;
     transition: opacity 2s ease-in-out; /* 전환 시간을 2초로 늘림 */
+    z-index: 0; /* (선택사항) 기본 슬라이드는 뒤로 보냄 */
 }
 
 .hero-slide.active {
     opacity: 1;
+    z-index: 10;
 }
 
 .hero-overlay {
@@ -426,49 +428,49 @@ section {
     .navbar-logo {
         height: 30px;
     }
-    
+
     .hero-nav {
         font-size: 2rem;
         padding: 0.5rem 1rem;
     }
-    
+
     .hero-nav.prev {
         left: 0.5rem;
     }
-    
+
     .hero-nav.next {
         right: 0.5rem;
     }
-    
+
     .display-3 {
         font-size: 2rem;
     }
-    
+
     .display-4 {
         font-size: 1.75rem;
     }
-    
+
     /* 모바일에서 사업 설명 섹션 레이아웃 조정 */
     .business-section-content {
         flex-direction: column;
         padding: 1rem;
         gap: 1rem;
     }
-    
+
     .business-section-image {
         flex: 0 0 auto;
         width: 100%;
         height: 200px;
     }
-    
+
     .business-section-header {
         padding: 0.75rem 1rem;
     }
-    
+
     .business-section-header h3 {
         font-size: 1rem;
     }
-    
+
     .business-section-text {
         width: 100%;
     }
@@ -491,6 +493,65 @@ section {
 
 .table tbody tr:hover {
     background: #f8f9fa;
+}
+
+/* 모바일 테이블 최적화 */
+@media (max-width: 767px) {
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem 0.25rem;
+    }
+
+    .table th:first-child,
+    .table td:first-child {
+        padding-left: 0.5rem;
+    }
+
+    .table th:last-child,
+    .table td:last-child {
+        padding-right: 0.5rem;
+    }
+
+    /* 공지사항 제목 열 - 더 넓게 */
+    .notice-title-col {
+        min-width: 60%;
+        max-width: none;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    /* 공지사항 등록일자 열 */
+    .notice-date-col {
+        min-width: 80px;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    /* 견적문의 제목 열 - 더 넓게 */
+    .estimate-title-col {
+        min-width: 50%;
+        max-width: none;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    /* 견적문의 답변여부 열 */
+    .estimate-status-col {
+        min-width: 90px;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    /* 견적문의 등록일자 열 */
+    .estimate-date-col {
+        min-width: 80px;
+        white-space: nowrap;
+        text-align: right;
+    }
 }
 
 /* 모달 스타일 */

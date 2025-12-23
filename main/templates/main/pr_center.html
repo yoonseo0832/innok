@@ -12,7 +12,7 @@
                 <p class="lead">인녹케이의 다양한 활동을 소개합니다</p>
             </div>
         </div>
-        
+
         <!-- 동영상 섹션 -->
         <div class="row mb-5">
             <div class="col-12">
@@ -21,14 +21,14 @@
                     <div class="col-lg-10 col-xl-8">
                         <div class="youtube-video-wrapper">
                             <div class="ratio ratio-16x9">
-                                <iframe 
-                                    width="560" 
-                                    height="315" 
-                                    src="https://www.youtube.com/embed/MqhxWQGmwm8?si=MWtPK3jqfvWb5doZ" 
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                <iframe
+                                    width="560"
+                                    height="315"
+                                    src="https://www.youtube.com/embed/MqhxWQGmwm8?si=MWtPK3jqfvWb5doZ"
+                                    title="YouTube video player"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
                                     allowfullscreen>
                                 </iframe>
                             </div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- 사진 갤러리 섹션 -->
         <div class="row">
             <div class="col-12">
@@ -61,7 +61,7 @@
             { id: 3, title: "Korea Food & Drug administration CERTIFICATE", url: "{% static 'img/6.jpg' %}" }
         ]
     };
-    
+
     // 사진 갤러리 표시
     const photoGallery = document.getElementById('photoGallery');
     if (photoGallery) {
@@ -80,7 +80,7 @@
             photoGallery.appendChild(col);
         });
     }
-    
+
     // 라이트박스 기능
     function openLightbox(imageUrl) {
         const modal = document.createElement('div');

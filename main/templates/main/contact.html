@@ -12,40 +12,40 @@
                 <p class="lead">언제든지 문의해 주세요</p>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-lg-6 mb-4">
                 <div class="contact-info p-4 bg-white rounded shadow">
                     <h4 class="mb-4">연락처 정보</h4>
                     <ul class="list-unstyled">
                         <li class="mb-3">
-                            <strong>업무시간:</strong> 
+                            <strong>업무시간:</strong>
                             <span id="businessHours">평일 오전 10시 ~ 오후 5시</span>
                         </li>
                         <li class="mb-3">
-                            <strong>대표번호:</strong> 
+                            <strong>대표번호:</strong>
                             <a href="tel:02-756-7094" id="phone">02-756-7094</a>
                         </li>
                         <li class="mb-3">
-                            <strong>핸드폰:</strong> 
+                            <strong>핸드폰:</strong>
                             <a href="tel:010-7131-7094" id="mobile">010-7131-7094</a>
                         </li>
                         <li class="mb-3">
-                            <strong>FAX:</strong> 
+                            <strong>FAX:</strong>
                             <span id="fax">0504-207-7094</span>
                         </li>
                         <li class="mb-3">
-                            <strong>EMAIL:</strong> 
+                            <strong>EMAIL:</strong>
                             <a href="mailto:innogi2020@innok.kr" id="email">innogi2020@innok.kr</a>
                         </li>
                         <li class="mb-3">
-                            <strong>주소:</strong> 
+                            <strong>주소:</strong>
                             <span id="address">서울특별시 용산구 두텁바위로 58길 7, 630호(장우빌딩)</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="col-lg-6">
                 <div class="contact-info p-4 bg-white rounded shadow">
                     <h4 class="mb-4">SNS</h4>
@@ -60,8 +60,13 @@
                                 <i class="bi bi-pencil-square"></i> 네이버 블로그
                             </a>
                         </li>
+                        <li class="mb-3">
+                            <a href="https://www.youtube.com/@inokkim7402" target="_blank" class="btn btn-outline-primary" id="youtube">
+                                <i class="bi bi-youtube"></i> 유튜브
+                            </a>
+                        </li>
                     </ul>
-                    
+
                     <h5 class="mt-4 mb-3">오시는 길</h5>
                     <div id="map" style="width:100%;height:300px;border-radius:8px;"></div>
                 </div>
@@ -95,25 +100,55 @@
             if (data.instagram) document.getElementById('instagram').href = data.instagram;
             if (data.blog) document.getElementById('blog').href = data.blog;
         });
-    
+
     // 네이버 지도 초기화
     function initMap() {
+        // 실제 장우빌딩 위치 (마커가 찍힐 곳)
+        const markerPosition = new naver.maps.LatLng(37.550109, 126.982025);
+
+        // 지도의 중심 위치 (마커보다 살짝 위로 잡아서, 마커를 아래로 내림)
+        // 위도(37.550109)에 0.002를 더함 -> 지도가 북쪽을 바라보게 됨 -> 마커는 아래로 내려옴
+        const centerPosition = new naver.maps.LatLng(37.550109 + 0.002, 126.982025);
+
         const mapOptions = {
-            center: new naver.maps.LatLng(37.5496, 126.9750), // 용산구 후암동 좌표
+            center: centerPosition, // 지도의 중심은 '살짝 위'로 설정
             zoom: 15
         };
         const map = new naver.maps.Map('map', mapOptions);
-        
+
         const marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.5496, 126.9750),
+            position: markerPosition, // 마커는 '실제 위치'에 찍음
             map: map
         });
+
+        // ---------------------------------------------
+        // 마커 위 텍스트 박스 (InfoWindow)
+        // ---------------------------------------------
+        const contentString = [
+            '<div style="padding:15px; min-width:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">',
+            '   <h4 style="margin:0 0 10px 0; color:#0d6efd; font-weight:bold;">INNOK</h4>',
+            '   <p style="margin:0; font-size:12px; color:#555; line-height:1.5;">',
+            '       서울특별시 용산구 두텁바위로 58길 7,<br>630호(장우빌딩)',
+            '   </p>',
+            '</div>'
+        ].join('');
+
+        const infoWindow = new naver.maps.InfoWindow({
+            content: contentString,
+            borderColor: "#ccc",
+            borderWidth: 1,
+            anchorSize: new naver.maps.Size(10, 10),
+            backgroundColor: "#fff",
+        });
+
+        infoWindow.open(map, marker);
     }
-    
+
     // 네이버 지도 API 로드
     if (typeof naver === 'undefined') {
         const script = document.createElement('script');
-        script.src = 'https://openapi.map.naver.com/mapjs.js?ncpClientId=YOUR_CLIENT_ID';
+        // script.src = 'https://openapi.map.naver.com/mapjs.js?ncpClientId=u0r31itq4o';
+        script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u0r31itq4o';
         script.onload = initMap;
         document.head.appendChild(script);
     } else {
