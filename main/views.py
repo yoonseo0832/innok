@@ -4,7 +4,7 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import Notice, Estimate, FAQ
+from .models import Notice, Estimate, FAQ, Newsletter
 import json
 import os
 from django.conf import settings
@@ -194,3 +194,51 @@ def faq_detail(request, pk):
 def pr_center(request):
     """PR CENTER 페이지"""
     return render(request, 'main/pr_center.html')
+
+
+def newsletter_list(request):
+    """뉴스레터 목록"""
+    newsletters = Newsletter.objects.all()
+    
+    # 검색 기능
+    search_query = request.GET.get('search', '')
+    if search_query:
+        newsletters = newsletters.filter(
+            Q(title__icontains=search_query) | 
+            Q(content__icontains=search_query) |
+            Q(author__icontains=search_query)
+        )
+    
+    # 페이지네이션
+    paginator = Paginator(newsletters, 16)  # 4x4 = 16개
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'page_obj': page_obj,
+        'search_query': search_query,
+    }
+    return render(request, 'main/newsletter_list.html', context)
+
+
+def newsletter_detail(request, pk):
+    """뉴스레터 상세보기"""
+    try:
+        newsletter = Newsletter.objects.get(pk=pk)
+        newsletter.views += 1
+        newsletter.save()
+    except Newsletter.DoesNotExist:
+        return redirect('main:newsletter_list')
+    
+    # 카카오톡 공유를 위한 URL 생성
+    share_url = request.build_absolute_uri(request.path)
+    
+    # 카카오 JavaScript Key 가져오기 (settings에서)
+    kakao_key = getattr(settings, 'KAKAO_JAVASCRIPT_KEY', None)
+    
+    context = {
+        'newsletter': newsletter,
+        'share_url': share_url,
+        'KAKAO_JAVASCRIPT_KEY': kakao_key,
+    }
+    return render(request, 'main/newsletter_detail.html', context)

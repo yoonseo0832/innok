@@ -135,3 +135,6 @@ JSON_DATA_DIR = BASE_DIR / 'data'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 카카오톡 자바스크립트 키
+KAKAO_JAVASCRIPT_KEY = 'your_kakao_javascript_key_here'

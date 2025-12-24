@@ -19,5 +19,7 @@ urlpatterns = [
     path('faq/', views.faq_list, name='faq_list'),
     path('faq/<int:pk>/', views.faq_detail, name='faq_detail'),
     path('pr/', views.pr_center, name='pr_center'),
+    path('newsletter/', views.newsletter_list, name='newsletter_list'),
+    path('newsletter/<int:pk>/', views.newsletter_detail, name='newsletter_detail'),
 ]
 

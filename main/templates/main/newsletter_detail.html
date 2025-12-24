@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}{{ newsletter.title }} - 뉴스레터 - INNOK{% endblock %}
+
+{% block extra_css %}
+<style>
+    .newsletter-detail-image {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .share-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 2rem;
+    }
+    .kakao-share-btn {
+        background-color: #FEE500;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s;
+    }
+    .kakao-share-btn:hover {
+        background-color: #FDD835;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <!-- 이미지 -->
+                        <img src="{{ newsletter.image.url }}" alt="{{ newsletter.title }}" class="newsletter-detail-image">
+                        
+                        <!-- 제목 -->
+                        <h1 class="mb-3">{{ newsletter.title }}</h1>
+                        
+                        <!-- 메타 정보 -->
+                        <div class="mb-4 pb-3 border-bottom">
+                            <div class="d-flex flex-wrap gap-3 text-muted">
+                                <div><i class="bi bi-person"></i> <strong>작성자:</strong> {{ newsletter.author }}</div>
+                                <div><i class="bi bi-calendar"></i> <strong>작성일:</strong> {{ newsletter.created_at|date:"Y년 m월 d일" }}</div>
+                                <div><i class="bi bi-eye"></i> <strong>조회수:</strong> {{ newsletter.views }}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 내용 -->
+                        <div class="content mb-4">
+                            {{ newsletter.content|linebreaks }}
+                        </div>
+                        
+                        <!-- 공유 버튼 -->
+                        <div class="share-buttons">
+                            <button class="kakao-share-btn" onclick="shareToKakao()">
+                                <i class="bi bi-chat-dots"></i> 카카오톡으로 공유
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'main:newsletter_list' %}" class="btn btn-secondary">목록으로</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Kakao SDK -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+    // Kakao SDK 초기화
+    {% if KAKAO_JAVASCRIPT_KEY %}
+    Kakao.init('{{ KAKAO_JAVASCRIPT_KEY }}');
+    {% else %}
+    // KAKAO_JAVASCRIPT_KEY가 설정되지 않았습니다. settings.py에 KAKAO_JAVASCRIPT_KEY를 추가하세요.
+    console.warn('Kakao JavaScript Key가 설정되지 않았습니다.');
+    {% endif %}
+    
+    function shareToKakao() {
+        {% if not KAKAO_JAVASCRIPT_KEY %}
+        // Key가 없을 경우 대체 공유 방법 사용
+        shareToKakaoFallback();
+        return;
+        {% endif %}
+        
+        const title = '{{ newsletter.title|escapejs }}';
+        const description = '{{ newsletter.content|truncatewords:30|escapejs }}';
+        const imageUrl = '{{ newsletter.image.url }}';
+        const shareUrl = '{{ share_url }}';
+        
+        Kakao.Share.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: title,
+                description: description,
+                imageUrl: imageUrl,
+                link: {
+                    mobileWebUrl: shareUrl,
+                    webUrl: shareUrl,
+                },
+            },
+            buttons: [
+                {
+                    title: '자세히 보기',
+                    link: {
+                        mobileWebUrl: shareUrl,
+                        webUrl: shareUrl,
+                    },
+                },
+            ],
+        });
+    }
+    
+    // Kakao SDK 초기화 실패 시 대체 공유 방법
+    function shareToKakaoFallback() {
+        const shareUrl = '{{ share_url }}';
+        const title = '{{ newsletter.title|escapejs }}';
+        const text = encodeURIComponent(title + '\n' + shareUrl);
+        window.open('https://story.kakao.com/share?url=' + encodeURIComponent(shareUrl) + '&text=' + text, '_blank');
+    }
+</script>
+{% endblock %}
+
