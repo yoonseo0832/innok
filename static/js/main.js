@@ -9,19 +9,41 @@ document.addEventListener('DOMContentLoaded', function() {
     initBusinessReveal();
 });
 
-// 네비게이션 바 스크롤 효과 (투명 헤더)
+// 네비게이션 바 스크롤 효과 (항상 보이는 헤더)
 function initNavigation() {
     const navbar = document.getElementById('mainNav');
     if (!navbar) return;
     
+    // 네비게이션 바가 항상 보이도록 강제 설정
+    function forceNavbarVisible() {
+        navbar.style.setProperty('display', 'block', 'important');
+        navbar.style.setProperty('visibility', 'visible', 'important');
+        navbar.style.setProperty('opacity', '1', 'important');
+        navbar.style.setProperty('position', 'fixed', 'important');
+        navbar.style.setProperty('top', '0', 'important');
+        navbar.style.setProperty('left', '0', 'important');
+        navbar.style.setProperty('right', '0', 'important');
+        navbar.style.setProperty('width', '100%', 'important');
+        navbar.style.setProperty('z-index', '9999', 'important');
+        navbar.style.setProperty('background', '#ffffff', 'important');
+        navbar.style.setProperty('transform', 'translateY(0)', 'important');
+    }
+    
     // 초기 상태 확인 (페이지 로드 시 스크롤 위치가 0이 아닐 수 있음)
     function updateNavbar() {
+        // 네비게이션 바가 항상 보이도록 강제 보장
+        forceNavbarVisible();
+        
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
     }
+    
+    // 즉시 실행
+    forceNavbarVisible();
+    updateNavbar();
     
     // 스크롤 이벤트 리스너 (throttle 적용하여 성능 최적화)
     let ticking = false;
@@ -35,8 +57,44 @@ function initNavigation() {
         }
     });
     
-    // 초기 실행
-    updateNavbar();
+    // 페이지 로드 시에도 실행
+    window.addEventListener('load', function() {
+        forceNavbarVisible();
+        updateNavbar();
+    });
+    
+    // DOMContentLoaded 시에도 실행
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            forceNavbarVisible();
+            updateNavbar();
+        });
+    } else {
+        forceNavbarVisible();
+        updateNavbar();
+    }
+    
+    // MutationObserver로 스타일 변경 감지 및 복구
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                // 스타일이 변경되면 다시 강제로 보이게 설정
+                setTimeout(forceNavbarVisible, 0);
+            }
+        });
+    });
+    
+    observer.observe(navbar, {
+        attributes: true,
+        attributeFilter: ['style', 'class']
+    });
+    
+    // 주기적으로 확인 (안전장치)
+    setInterval(function() {
+        if (navbar.style.display === 'none' || navbar.style.visibility === 'hidden' || navbar.style.opacity === '0') {
+            forceNavbarVisible();
+        }
+    }, 100);
 }
 
 // 스크롤 애니메이션 초기화

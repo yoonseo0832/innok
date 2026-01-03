@@ -21,45 +21,65 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     overflow-x: hidden;
+    padding-top: 80px; /* 네비게이션 바 높이만큼 상단 여백 추가 (레이아웃 겹침 방지) */
 }
 
-/* 네비게이션 바 - 투명 헤더 */
-/* 기본 상태: 투명 배경, 흰색 텍스트 */
+/* 모바일에서도 동일한 여백 적용 */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px; /* 모바일 네비게이션 바 높이에 맞춰 조정 */
+    }
+}
+
+/* 네비게이션 바 - 항상 보이는 고정 헤더 */
+/* 기본 상태: 완전 불투명 흰색 배경 (항상 보이도록) */
 #mainNav {
-    background: transparent !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important; /* 완전 불투명 흰색 배경 */
+    backdrop-filter: none !important;
     transition: all 0.3s ease;
     padding: 1rem 0;
-    box-shadow: none !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
     border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    z-index: 9999 !important; /* 매우 높은 z-index로 항상 최상단에 표시 */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
-/* 스크롤 상태: 흰색 배경, 그림자, 검은색 텍스트 */
+/* 스크롤 상태: 그림자 강화 */
 #mainNav.scrolled {
-    background: rgba(255, 255, 255, 1) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    background: #ffffff !important; /* 항상 완전 불투명 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
     padding: 0.75rem 0;
 }
 
-/* navbar-dark 기본 상태: 흰색 텍스트 */
+/* navbar-dark 기본 상태: 검은색 텍스트 (흰색 배경 위에서) */
 #mainNav.navbar-dark {
-    background: transparent !important;
+    background: #ffffff !important; /* 항상 완전 불투명 */
 }
 
 #mainNav.navbar-dark .nav-link {
-    color: #ffffff !important;
+    color: var(--text-dark) !important;
 }
 
 #mainNav.navbar-dark .navbar-brand {
-    color: #ffffff !important;
+    color: var(--text-dark) !important;
 }
 
 #mainNav.navbar-dark .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* 스크롤 상태: 검은색 텍스트로 변경 */
+/* 스크롤 상태: 동일하게 유지 */
 #mainNav.navbar-dark.scrolled {
-    background: rgba(255, 255, 255, 1) !important;
+    background: #ffffff !important; /* 항상 완전 불투명 */
 }
 
 #mainNav.navbar-dark.scrolled .nav-link {
@@ -94,11 +114,11 @@ body {
     width: auto;
     object-fit: contain;
     margin-right: 10px;
-    filter: brightness(0) invert(1); /* 기본 상태: 흰색 로고 */
+    filter: none; /* 기본 상태: 원래 색상 로고 (흰색 배경 위에서) */
     transition: filter 0.3s ease;
 }
 
-/* 스크롤 상태: 원래 색상 로고 */
+/* 스크롤 상태: 동일하게 유지 */
 #mainNav.scrolled .navbar-logo {
     filter: none;
 }
@@ -121,9 +141,9 @@ body {
     color: var(--primary-color) !important;
 }
 
-/* navbar-dark 상태에서 hover 색상 */
+/* navbar-dark 상태에서 hover 색상 (검은색 텍스트 위에서) */
 #mainNav.navbar-dark .nav-link:hover {
-    color: rgba(255, 255, 255, 0.8) !important;
+    color: var(--primary-color) !important;
 }
 
 #mainNav.navbar-dark.scrolled .nav-link:hover {
@@ -132,7 +152,7 @@ body {
 
 /* 햄버거 버튼(모바일) */
 .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(0, 0, 0, 0.1);
     padding: 0.5rem 0.75rem;
     transition: border-color 0.3s ease;
 }
@@ -492,18 +512,21 @@ section {
     padding: 0.5rem 1.25rem;
     white-space: nowrap;
     transition: all 0.3s ease;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
 }
 
-/* navbar-dark 상태에서 버튼 스타일 */
+/* navbar-dark 상태에서 버튼 스타일 (흰색 배경 위에서) */
 #mainNav.navbar-dark .btn-primary {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     color: #ffffff;
 }
 
 #mainNav.navbar-dark .btn-primary:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
     color: #ffffff;
 }
 
@@ -548,8 +571,9 @@ section {
 
 /* 드롭다운 메뉴 색상 조정 */
 #mainNav.navbar-dark .dropdown-menu {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: #ffffff;
     backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 #mainNav.navbar-dark .dropdown-item {
@@ -572,11 +596,15 @@ section {
     }
     
     #mainNav.navbar-dark .navbar-logo {
-        filter: brightness(0) invert(1);
+        filter: none; /* 모바일에서도 원래 색상 유지 */
     }
     
     #mainNav.navbar-dark.scrolled .navbar-logo {
         filter: none;
+    }
+    
+    #mainNav {
+        padding: 0.75rem 0;
     }
     
     .navbar-nav.me-auto {
