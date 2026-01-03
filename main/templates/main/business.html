@@ -7,7 +7,7 @@
 <section class="py-5 mt-5">
     <div class="container">
         <div class="row mb-5">
-            <div class="col-lg-12 text-center">
+            <div class="col-lg-12 text-center reveal">
                 <h1 class="display-4 fw-bold mb-3">사업소개</h1>
                 <p class="lead">전문적이고 차별화된 서비스를 제공합니다</p>
             </div>
@@ -38,13 +38,13 @@
             </div>
         </div>
 
-        <div class="row mb-4" id="businessDescription" style="display: none;">
+        <div class="row mb-4 reveal" id="businessDescription" style="display: none;">
             <div class="col-12">
                 <div id="businessDescriptionContent"></div>
             </div>
         </div>
 
-        <div class="row g-4" id="projectGallery">
+        <div class="row g-4 reveal" id="projectGallery">
             </div>
     </div>
 </section>
@@ -320,15 +320,19 @@
             order.forEach((key, index) => {
                 if (businessDescriptions[key]) {
                     const separatorClass = index < order.length - 1 ? 'border-bottom pb-5 mb-5' : '';
-                    combinedContent += `<div class="${separatorClass}">${businessDescriptions[key]}</div>`;
+                    combinedContent += `<div class="reveal ${separatorClass}">${businessDescriptions[key]}</div>`;
                 }
             });
             descriptionContent.innerHTML = combinedContent;
             descriptionSection.style.display = 'block';
+            // reveal 효과 재적용
+            setTimeout(() => initBusinessReveal(), 100);
         } else if (businessDescriptions[type]) {
             // 개별 탭 선택 시
-            descriptionContent.innerHTML = businessDescriptions[type];
+            descriptionContent.innerHTML = `<div class="reveal">${businessDescriptions[type]}</div>`;
             descriptionSection.style.display = 'block';
+            // reveal 효과 재적용
+            setTimeout(() => initBusinessReveal(), 100);
         } else {
             descriptionSection.style.display = 'none';
         }
@@ -371,12 +375,19 @@
                 gallery.appendChild(card);
             });
         });
+        
+        // reveal 효과 재적용
+        setTimeout(() => {
+            if (typeof initBusinessReveal === 'function') {
+                initBusinessReveal();
+            }
+        }, 100);
     }
 
     // [4] 카드 생성 헬퍼 함수
     function createProjectCard(project, type) {
         const col = document.createElement('div');
-        col.className = 'col-md-4';
+        col.className = 'col-md-4 reveal';
         col.innerHTML = `
             <div class="card h-100 shadow-sm business-card" onclick="showProjectDetail(${project.id}, '${type}')">
                 <img src="${project.image || '/static/images/placeholder.jpg'}" class="card-img-top" alt="${project.title}" style="height: 200px; object-fit: cover;">

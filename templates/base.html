@@ -52,8 +52,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/contact">고객센터</a>
                     </li>
-                    <!-- 공지 및 뉴스 드롭다운 메뉴 -->
-                    <li class="nav-item dropdown">
+                    <!-- 공지 및 뉴스 드롭다운 메뉴 (hover 지원) -->
+                    <li class="nav-item dropdown" id="noticeNewsDropdownItem">
                         <a class="nav-link dropdown-toggle" href="#" id="noticeNewsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             공지 및 뉴스
                         </a>
@@ -68,34 +68,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'main:pr_center' %}">PR CENTER</a>
                     </li>
-                    <!-- 언어 선택 드롭다운 -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% get_current_language as CURRENT_LANGUAGE %}
-                            {% if CURRENT_LANGUAGE == 'en' %}English{% else %}Korean{% endif %}
+                    <!-- 언어 표시 (단순화: 드롭다운 제거) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="cursor: default;">
+                            <i class="bi bi-globe"></i> Korean
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li>
-                                <form action="{% url 'set_language' %}" method="post" class="d-inline w-100">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="language" value="ko">
-                                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                                    <button type="submit" class="dropdown-item w-100 text-start {% if CURRENT_LANGUAGE == 'ko' %}active{% endif %}" style="border: none; background: none;">Korean</button>
-                                </form>
-                            </li>
-                            <li>
-                                <form action="{% url 'set_language' %}" method="post" class="d-inline w-100">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="language" value="en">
-                                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                                    <button type="submit" class="dropdown-item w-100 text-start {% if CURRENT_LANGUAGE == 'en' %}active{% endif %}" style="border: none; background: none;">English</button>
-                                </form>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
-                <!-- 견적문의 버튼 (오른쪽 끝) -->
+                <!-- 견적문의 버튼 (오른쪽 끝, 조건부 표시) -->
+                {% if '/estimate/' not in request.path %}
                 <a href="{% url 'main:estimate_list' %}" class="btn btn-primary ms-2">견적문의</a>
+                {% endif %}
             </div>
         </div>
     </nav>
