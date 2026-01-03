@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-+knivw1j-d5#=+v#lbcxgw#_uyjm0$vtgo5^_g7fz0$4lq7de3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+# 수정 후 (대표님 도메인과 PythonAnywhere 주소 추가)
+ALLOWED_HOST = ['innok.kr', 'www.innok.kr', 'pythonanywhere.com']
 
 
 # Application definition
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # i18n support
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -106,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -114,18 +117,31 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Supported languages
+LANGUAGES = [
+    ('ko', 'Korean'),
+    ('en', 'English'),
+]
+
+# Language files location
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# 수정 후 (앞에 슬래시 / 를 꼭 붙여주세요)
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# 수정 후 (앞에 슬래시 / 를 꼭 붙여주세요)
 # Media files
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # JSON 데이터 파일 경로
