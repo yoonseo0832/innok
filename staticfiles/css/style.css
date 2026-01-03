@@ -27,8 +27,9 @@ body {
 #mainNav {
     background: rgba(255, 255, 255, 0.95) !important;
     transition: all 0.3s ease;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    min-height: 80px;
 }
 
 #mainNav.scrolled {
@@ -58,14 +59,22 @@ body {
 }
 
 .navbar-logo {
-    height: 40px;
+    height: 55px;
     width: auto;
     object-fit: contain;
 }
 
+.navbar-nav.me-auto {
+    margin-right: auto !important;
+    margin-left: 15% !important;
+    gap: 0.75rem;
+}
+
 .nav-link {
     font-weight: 500;
-    margin: 0 0.5rem;
+    font-size: 1.1rem;
+    margin: 0 0.75rem;
+    padding: 0.75rem 1rem !important;
     transition: color 0.3s ease;
     color: var(--text-dark) !important;
 }
@@ -140,11 +149,22 @@ body {
 }
 
 .hero-nav.prev {
-    left: 2rem;
+    left: 0;
 }
 
 .hero-nav.next {
-    right: 2rem;
+    right: 0;
+}
+
+/* Hero 섹션 버튼 스타일 통일 */
+.hero-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .hero-nav:hover {
@@ -395,6 +415,16 @@ section {
     font-size: 0.95rem;
 }
 
+/* 드롭다운 hover 트리거 */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.nav-item.dropdown .dropdown-menu {
+    margin-top: 0;
+}
+
 /* 드롭다운 스타일 */
 .business-filter-wrapper .dropdown {
     width: 100%;
@@ -574,6 +604,18 @@ section {
 }
 
 .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Business 페이지 스크롤 등장 효과 */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.active {
     opacity: 1;
     transform: translateY(0);
 }

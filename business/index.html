@@ -52,8 +52,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href"/innok_django/contact">고객센터</a>
                     </li>
-                    <!-- 공지 및 뉴스 드롭다운 메뉴 -->
-                    <li class="nav-item dropdown">
+                    <!-- 공지 및 뉴스 드롭다운 메뉴 (hover 지원) -->
+                    <li class="nav-item dropdown" id="noticeNewsDropdownItem">
                         <a class="nav-link dropdown-toggle" href="#" id="noticeNewsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             공지 및 뉴스
                         </a>
@@ -68,34 +68,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href"/innok_django/pr/">PR CENTER</a>
                     </li>
-                    <!-- 언어 선택 드롭다운 -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            
-                            Korean
+                    <!-- 언어 표시 (단순화: 드롭다운 제거) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="cursor: default;">
+                            <i class="bi bi-globe"></i> Korean
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li>
-                                <form action="/i18n/setlang/" method="post" class="d-inline w-100">
-                                    
-                                    <input type="hidden" name="language" value="ko">
-                                    <input type="hidden" name="next" value="">
-                                    <button type="submit" class="dropdown-item w-100 text-start active" style="border: none; background: none;">Korean</button>
-                                </form>
-                            </li>
-                            <li>
-                                <form action="/i18n/setlang/" method="post" class="d-inline w-100">
-                                    
-                                    <input type="hidden" name="language" value="en">
-                                    <input type="hidden" name="next" value="">
-                                    <button type="submit" class="dropdown-item w-100 text-start " style="border: none; background: none;">English</button>
-                                </form>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
-                <!-- 견적문의 버튼 (오른쪽 끝) -->
-                <a href"/innok_django/estimate/" class="btn btn-primary ms-2">견적문의</a>
+                <!-- 견적문의 버튼 (오른쪽 끝, 조건부 표시) -->
+                
             </div>
         </div>
     </nav>
@@ -106,7 +87,7 @@
 <section class="py-5 mt-5">
     <div class="container">
         <div class="row mb-5">
-            <div class="col-lg-12 text-center">
+            <div class="col-lg-12 text-center reveal">
                 <h1 class="display-4 fw-bold mb-3">사업소개</h1>
                 <p class="lead">전문적이고 차별화된 서비스를 제공합니다</p>
             </div>
@@ -137,13 +118,13 @@
             </div>
         </div>
 
-        <div class="row mb-4" id="businessDescription" style="display: none;">
+        <div class="row mb-4 reveal" id="businessDescription" style="display: none;">
             <div class="col-12">
                 <div id="businessDescriptionContent"></div>
             </div>
         </div>
 
-        <div class="row g-4" id="projectGallery">
+        <div class="row g-4 reveal" id="projectGallery">
             </div>
     </div>
 </section>
@@ -465,15 +446,19 @@
             order.forEach((key, index) => {
                 if (businessDescriptions[key]) {
                     const separatorClass = index < order.length - 1 ? 'border-bottom pb-5 mb-5' : '';
-                    combinedContent += `<div class="${separatorClass}">${businessDescriptions[key]}</div>`;
+                    combinedContent += `<div class="reveal ${separatorClass}">${businessDescriptions[key]}</div>`;
                 }
             });
             descriptionContent.innerHTML = combinedContent;
             descriptionSection.style.display = 'block';
+            // reveal 효과 재적용
+            setTimeout(() => initBusinessReveal(), 100);
         } else if (businessDescriptions[type]) {
             // 개별 탭 선택 시
-            descriptionContent.innerHTML = businessDescriptions[type];
+            descriptionContent.innerHTML = `<div class="reveal">${businessDescriptions[type]}</div>`;
             descriptionSection.style.display = 'block';
+            // reveal 효과 재적용
+            setTimeout(() => initBusinessReveal(), 100);
         } else {
             descriptionSection.style.display = 'none';
         }
@@ -516,12 +501,19 @@
                 gallery.appendChild(card);
             });
         });
+        
+        // reveal 효과 재적용
+        setTimeout(() => {
+            if (typeof initBusinessReveal === 'function') {
+                initBusinessReveal();
+            }
+        }, 100);
     }
 
     // [4] 카드 생성 헬퍼 함수
     function createProjectCard(project, type) {
         const col = document.createElement('div');
-        col.className = 'col-md-4';
+        col.className = 'col-md-4 reveal';
         col.innerHTML = `
             <div class="card h-100 shadow-sm business-card" onclick="showProjectDetail(${project.id}, '${type}')">
                 <img src="${project.image || '/static/images/placeholder.jpg'}" class="card-img-top" alt="${project.title}" style="height: 200px; object-fit: cover;">

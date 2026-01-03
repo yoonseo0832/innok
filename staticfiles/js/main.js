@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initNavigation();
     initScrollAnimations();
     initSmoothScroll();
+    initDropdownHover();
+    initBusinessReveal();
 });
 
 // 네비게이션 바 스크롤 효과
@@ -144,5 +146,77 @@ if ('loading' in HTMLImageElement.prototype) {
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
     document.body.appendChild(script);
+}
+
+// 드롭다운 hover 트리거 (공지 및 뉴스 메뉴)
+function initDropdownHover() {
+    const dropdownItem = document.getElementById('noticeNewsDropdownItem');
+    if (!dropdownItem) return;
+    
+    const dropdownToggle = document.getElementById('noticeNewsDropdown');
+    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+    
+    if (!dropdownToggle || !dropdownMenu) return;
+    
+    // Hover 시 드롭다운 열기
+    dropdownItem.addEventListener('mouseenter', function() {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+            const bsDropdown = bootstrap.Dropdown.getInstance(dropdownToggle);
+            if (!bsDropdown) {
+                new bootstrap.Dropdown(dropdownToggle).show();
+            } else {
+                bsDropdown.show();
+            }
+        } else {
+            dropdownMenu.classList.add('show');
+            dropdownToggle.setAttribute('aria-expanded', 'true');
+        }
+    });
+    
+    // 마우스가 떠날 때 드롭다운 닫기 (약간의 딜레이)
+    let hoverTimeout;
+    dropdownItem.addEventListener('mouseleave', function() {
+        hoverTimeout = setTimeout(function() {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+                const bsDropdown = bootstrap.Dropdown.getInstance(dropdownToggle);
+                if (bsDropdown) {
+                    bsDropdown.hide();
+                }
+            } else {
+                dropdownMenu.classList.remove('show');
+                dropdownToggle.setAttribute('aria-expanded', 'false');
+            }
+        }, 200);
+    });
+    
+    // 드롭다운 메뉴에 마우스가 있으면 닫지 않음
+    dropdownMenu.addEventListener('mouseenter', function() {
+        clearTimeout(hoverTimeout);
+    });
+}
+
+// Business 페이지 스크롤 등장 효과 (Intersection Observer API)
+function initBusinessReveal() {
+    const revealElements = document.querySelectorAll('.reveal');
+    if (revealElements.length === 0) return;
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // 한 번만 실행되도록 옵저버 해제
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    revealElements.forEach(element => {
+        observer.observe(element);
+    });
 }
 

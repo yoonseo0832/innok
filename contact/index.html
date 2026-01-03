@@ -52,8 +52,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href"/innok_django/contact">고객센터</a>
                     </li>
-                    <!-- 공지 및 뉴스 드롭다운 메뉴 -->
-                    <li class="nav-item dropdown">
+                    <!-- 공지 및 뉴스 드롭다운 메뉴 (hover 지원) -->
+                    <li class="nav-item dropdown" id="noticeNewsDropdownItem">
                         <a class="nav-link dropdown-toggle" href="#" id="noticeNewsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             공지 및 뉴스
                         </a>
@@ -68,34 +68,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href"/innok_django/pr/">PR CENTER</a>
                     </li>
-                    <!-- 언어 선택 드롭다운 -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            
-                            Korean
+                    <!-- 언어 표시 (단순화: 드롭다운 제거) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="cursor: default;">
+                            <i class="bi bi-globe"></i> Korean
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li>
-                                <form action="/i18n/setlang/" method="post" class="d-inline w-100">
-                                    
-                                    <input type="hidden" name="language" value="ko">
-                                    <input type="hidden" name="next" value="">
-                                    <button type="submit" class="dropdown-item w-100 text-start active" style="border: none; background: none;">Korean</button>
-                                </form>
-                            </li>
-                            <li>
-                                <form action="/i18n/setlang/" method="post" class="d-inline w-100">
-                                    
-                                    <input type="hidden" name="language" value="en">
-                                    <input type="hidden" name="next" value="">
-                                    <button type="submit" class="dropdown-item w-100 text-start " style="border: none; background: none;">English</button>
-                                </form>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
-                <!-- 견적문의 버튼 (오른쪽 끝) -->
-                <a href"/innok_django/estimate/" class="btn btn-primary ms-2">견적문의</a>
+                <!-- 견적문의 버튼 (오른쪽 끝, 조건부 표시) -->
+                
             </div>
         </div>
     </nav>
