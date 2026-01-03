@@ -23,58 +23,94 @@ body {
     overflow-x: hidden;
 }
 
-/* 네비게이션 바 */
-/* 네비게이션 바 전체 높이 및 여백 증가 */
+/* 네비게이션 바 - 투명 헤더 */
+/* 기본 상태: 투명 배경, 흰색 텍스트 */
 #mainNav {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: transparent !important;
     transition: all 0.3s ease;
-    padding: 1.5rem 0; /* 기존 1rem -> 1.5rem으로 높이 확대 */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    box-shadow: none !important;
+    border: none !important;
 }
 
+/* 스크롤 상태: 흰색 배경, 그림자, 검은색 텍스트 */
 #mainNav.scrolled {
     background: rgba(255, 255, 255, 1) !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    padding: 1rem 0; /* 스크롤 내리면 조금 줄어들게 설정 (선택사항) */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    padding: 0.75rem 0;
 }
 
+/* navbar-dark 기본 상태: 흰색 텍스트 */
 #mainNav.navbar-dark {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: transparent !important;
 }
 
+#mainNav.navbar-dark .nav-link {
+    color: #ffffff !important;
+}
+
+#mainNav.navbar-dark .navbar-brand {
+    color: #ffffff !important;
+}
+
+#mainNav.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* 스크롤 상태: 검은색 텍스트로 변경 */
 #mainNav.navbar-dark.scrolled {
     background: rgba(255, 255, 255, 1) !important;
 }
 
-/* 브랜드명(텍스트) 크기 확대 */
+#mainNav.navbar-dark.scrolled .nav-link {
+    color: var(--text-dark) !important;
+}
+
+#mainNav.navbar-dark.scrolled .navbar-brand {
+    color: var(--text-dark) !important;
+}
+
+#mainNav.navbar-dark.scrolled .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* 브랜드명(텍스트) */
 .navbar-brand {
-    font-size: 1.8rem; /* 기존 1.5rem -> 1.8rem 확대 */
+    font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     display: flex;
     align-items: center;
-    color: var(--text-dark) !important;
+    transition: color 0.3s ease;
 }
 
 .navbar-brand:hover {
     color: var(--primary-color) !important;
 }
 
-/* 로고 이미지 크기 확대 */
+/* 로고 이미지 */
 .navbar-logo {
-    height: 55px; /* 기존 40px -> 55px 확대 */
+    height: 45px;
     width: auto;
     object-fit: contain;
-    margin-right: 10px; /* 로고와 글자 사이 간격 추가 */
+    margin-right: 10px;
+    filter: brightness(0) invert(1); /* 기본 상태: 흰색 로고 */
+    transition: filter 0.3s ease;
 }
 
-/* 메뉴 글자(nav-link) 크기 및 간격 확대 - 여기서 에러 해결! */
+/* 스크롤 상태: 원래 색상 로고 */
+#mainNav.scrolled .navbar-logo {
+    filter: none;
+}
+
+/* 메뉴 링크 - 폰트 크기 축소 및 간격 최적화 */
 .nav-link {
-    font-size: 1.25rem; /* 명확한 숫자로 지정하여 에러 해결 (약 20px) */
-    font-weight: 600;   /* 글자 두께를 500 -> 600으로 조금 더 진하게 */
-    margin: 0 1rem;     /* 메뉴 사이 간격을 0.5rem -> 1rem으로 넓힘 */
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    padding: 0.5rem 0.75rem !important;
     transition: color 0.3s ease;
-    color: var(--text-dark) !important;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -85,22 +121,36 @@ body {
     color: var(--primary-color) !important;
 }
 
-/* 햄버거 버튼(모바일) 테두리 및 색상 */
+/* navbar-dark 상태에서 hover 색상 */
+#mainNav.navbar-dark .nav-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+#mainNav.navbar-dark.scrolled .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* 햄버거 버튼(모바일) */
 .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 0.75rem;
+    transition: border-color 0.3s ease;
+}
+
+#mainNav.scrolled .navbar-toggler {
     border-color: rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 0.75rem; /* 버튼 터치 영역 확보 */
 }
 
 .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    width: 1.75em;  /* 아이콘 크기도 약간 키움 */
-    height: 1.75em;
+    width: 1.5em;
+    height: 1.5em;
 }
 
-/* 아까 요청하신 메뉴 위치 조정 (왼쪽 마진 15%) */
-.me-auto {
+/* 메뉴 위치 조정 */
+.navbar-nav.me-auto {
     margin-right: auto !important;
-    margin-left: 15%;
+    margin-left: 15% !important;
+    gap: 0.25rem;
 }
 
 /* 히어로 섹션 */
@@ -431,6 +481,41 @@ section {
 
 .nav-item.dropdown .dropdown-menu {
     margin-top: 0;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 견적문의 버튼 스타일 */
+#mainNav .btn-primary {
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+/* navbar-dark 상태에서 버튼 스타일 */
+#mainNav.navbar-dark .btn-primary {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+#mainNav.navbar-dark .btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+}
+
+#mainNav.navbar-dark.scrolled .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+}
+
+#mainNav.navbar-dark.scrolled .btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
 }
 
 /* 드롭다운 스타일 */
@@ -461,10 +546,47 @@ section {
     color: white;
 }
 
+/* 드롭다운 메뉴 색상 조정 */
+#mainNav.navbar-dark .dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+#mainNav.navbar-dark .dropdown-item {
+    color: var(--text-dark) !important;
+}
+
+#mainNav.navbar-dark .dropdown-item:hover {
+    background-color: rgba(0, 102, 204, 0.1);
+    color: var(--primary-color) !important;
+}
+
+#mainNav.navbar-dark.scrolled .dropdown-menu {
+    background-color: #ffffff;
+}
+
 /* 반응형 */
 @media (max-width: 768px) {
     .navbar-logo {
-        height: 30px;
+        height: 35px;
+    }
+    
+    #mainNav.navbar-dark .navbar-logo {
+        filter: brightness(0) invert(1);
+    }
+    
+    #mainNav.navbar-dark.scrolled .navbar-logo {
+        filter: none;
+    }
+    
+    .navbar-nav.me-auto {
+        margin-left: 0 !important;
+    }
+    
+    .nav-link {
+        font-size: 0.95rem;
+        margin: 0 0.25rem;
+        padding: 0.5rem !important;
     }
 
     .hero-nav {

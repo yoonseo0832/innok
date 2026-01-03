@@ -9,17 +9,34 @@ document.addEventListener('DOMContentLoaded', function() {
     initBusinessReveal();
 });
 
-// 네비게이션 바 스크롤 효과
+// 네비게이션 바 스크롤 효과 (투명 헤더)
 function initNavigation() {
     const navbar = document.getElementById('mainNav');
+    if (!navbar) return;
     
-    window.addEventListener('scroll', function() {
+    // 초기 상태 확인 (페이지 로드 시 스크롤 위치가 0이 아닐 수 있음)
+    function updateNavbar() {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
+    }
+    
+    // 스크롤 이벤트 리스너 (throttle 적용하여 성능 최적화)
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateNavbar();
+                ticking = false;
+            });
+            ticking = true;
+        }
     });
+    
+    // 초기 실행
+    updateNavbar();
 }
 
 // 스크롤 애니메이션 초기화
